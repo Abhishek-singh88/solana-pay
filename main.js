@@ -7,8 +7,11 @@ const walletText = document.getElementById("wallet");
 const generateBtn = document.getElementById("generate");
 const amountInput = document.getElementById("amount");
 const qrContainer = document.getElementById("qr");
+const payLink = document.getElementById("paylink");
+const copyBtn = document.getElementById("copy");
 
 let receiverPublicKey = null;
+let solanaPayURL = "";
 
 // Connect wallet (receiver)
 connectBtn.onclick = async () => {
@@ -23,7 +26,7 @@ connectBtn.onclick = async () => {
   walletText.innerText = `Receiver: ${receiverPublicKey.toBase58()}`;
 };
 
-// Generate QR
+// Generate link + QR
 generateBtn.onclick = () => {
   if (!receiverPublicKey) {
     alert("Connect wallet first");
@@ -38,13 +41,29 @@ generateBtn.onclick = () => {
 
   const url = encodeURL({
     recipient: receiverPublicKey,
-    amount: new BigNumber(amount), 
+    amount: new BigNumber(amount),
     label: "Solana Pay Demo",
     message: "Pay via Phantom",
-    cluster: "devnet",
   });
 
+  solanaPayURL = `https://solana.com/pay?recipient=${receiverPublicKey.toBase58()}` +
+  `&amount=${amount}` +
+  `&label=Solana+Pay+Demo` +
+  `&message=Pay+via+Phantom`;
+
+  // Clickable link
+  payLink.href = solanaPayURL;
+  payLink.innerText = "Pay with Phantom";
+
+  // QR
   qrContainer.innerHTML = "";
   const qr = createQR(url, 300);
   qr.append(qrContainer);
+};
+
+// Copy button
+copyBtn.onclick = async () => {
+  if (!solanaPayURL) return;
+  await navigator.clipboard.writeText(solanaPayURL);
+  alert("Payment link copied!");
 };
