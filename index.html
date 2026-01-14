@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solana Pay – Basic</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    button {
+      padding: 10px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      width: 200px;
+    }
+    #qr {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Solana Pay – Generate QR</h2>
+
+  <button id="connect">Connect Wallet</button>
+  <p id="wallet"></p>
+
+  <input id="amount" type="number" placeholder="Amount (SOL)" />
+  <br />
+  <button id="generate">Generate Payment QR</button>
+
+  <div id="qr"></div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
